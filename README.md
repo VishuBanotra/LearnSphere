@@ -35,6 +35,7 @@ Here are some screenshots of Learn Sphere:
 *Signup Page*
 
 ![Instructor_Course_Mobile](https://github.com/VishuBanotra/LearnSphere/assets/111637458/f15089e2-14e5-483a-ba1d-b25484f85ef0)
+
 *Instructor Courses Mobile*
 
 ![course_uploading](https://github.com/VishuBanotra/LearnSphere/assets/111637458/e388e2eb-68a0-46de-bf21-57a825f1e36d)
