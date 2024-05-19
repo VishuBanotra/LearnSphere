@@ -9,18 +9,6 @@ import { uploadOnCloudinary } from "../../utils/cloudinary";
 import Course from "../../model/course.model";
 import { Video } from "../../model/video.model";
 
-interface Pagination {
-  totalCoursesCount: number;
-  pageCount: number;
-  totalCourses: {};
-  next: {
-    nextPage: number;
-  };
-  prev: {
-    prevPage: number;
-  };
-}
-
 // Getting All courses
 export const getCourses = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -29,44 +17,11 @@ export const getCourses = asyncHandler(
       .populate({ path: "createdBy", select: "fullname" })
       .select("title description createdBy price thumbNail videos");
 
-    console.log(req.params.page);
-
-    const page = parseInt(req.params.page);
-    const limit = parseInt(req.params.limit);
-
-    const startIndex = (page - 1) * limit;
-    const lastIndex = page * limit;
-
-    let result: Pagination = {
-      totalCoursesCount: 0,
-      pageCount: 0,
-      totalCourses: {},
-      next: {
-        nextPage: 0,
-      },
-      prev: {
-        prevPage: 0,
-      },
-    };
-
-    result.totalCoursesCount = courses.length;
-    result.pageCount = Math.ceil(courses.length / limit);
-
-    if (lastIndex < courses.length) {
-      result.next.nextPage = page + 1;
-    }
-
-    if (startIndex > 0) {
-      result.prev.prevPage = page - 1;
-    }
-
-    result.totalCourses = courses.slice(startIndex, lastIndex);
-
-    if (result) {
+    if (courses) {
       return res.status(200).json({
         success: true,
         messages: "Courses Fetched Successfully.",
-        result,
+        courses,
       });
     } else {
       return res.send(404).json({
@@ -76,41 +31,6 @@ export const getCourses = asyncHandler(
     }
   }
 );
-
-/* 
-Pagination Logic
-What is the Problem statement now
-- Show 
-
-const allCourses = Course.find({})
-
-const page = parseInt(req.query.page)
-const limit =  parseInt(req.query.limit)
-
-const startIndex = (page - 1) * limit
-const lastIndex = (page) * limit
-
-const results = {}
-
-results.totalCourses = allCourses.length
-results.pageCount = Math.ceil(allCourses.length/limit)
-
-if (lastIndex < allCourses.length) {
-  results.next = {
-    page: page + 1
-  }
-}
-
-if (startIndex > 0) {
-  results.prev = {
-    page: page - 1
-  }
-}
-
-results.result = allCourses.slice(startIndex, lastIndex)
-return res.json({results})
-
-*/
 
 // Publish Course
 export const publish = asyncHandler(

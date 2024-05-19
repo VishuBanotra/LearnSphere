@@ -17,6 +17,7 @@ import CourseUpload from "./components/instructor/CourseUpload";
 
 import Courses from "./components/instructor/Courses";
 import { ToastContainer } from "react-toastify";
+import Video from "./components/instructor/VideoUpload";
 
 // Instructor Routes
 
@@ -42,6 +43,7 @@ function App() {
 
           <Route path="/add/course" element={<CourseUpload />} />
           <Route path="/instructor/courses" element={<Courses />} />
+          <Route path="/video/upload" element={<Video />} />
         </Routes>
         <Footer />
       </Router>

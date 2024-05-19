@@ -1,3 +1,32 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.pagination {
+  font-family: "poppins";
+  min-width: 250px;
+  margin: auto;
+ 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+
+}
+
+.item {
+  margin: 10px;
+  font-weight: bold;
+}
+
+.active {
+  padding: 5px 10px;
+  background-color: #0070f9;
+  border-radius: 3px;
+  color: white;
+
+}
+/* 
+-webkit-box-shadow: 1px -1px 51px -14px rgba(0,0,0,0.75);
+-moz-box-shadow: 1px -1px 51px -14px rgba(0,0,0,0.75); */
+
