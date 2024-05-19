@@ -12,7 +12,7 @@ import UserDashboard from "./components/pages/Dashboard/UserDashboard";
 import AllCourses from "./components/pages/Courses/AllCourses";
 import { useEffect } from "react";
 import { loadUser } from "./services/app/actions/auth.action";
-import { useAppDispatch } from "./hooks";
+import { useAppDispatch } from "./services/app/hooks";
 import CourseUpload from "./components/instructor/CourseUpload";
 
 import Courses from "./components/instructor/Courses";

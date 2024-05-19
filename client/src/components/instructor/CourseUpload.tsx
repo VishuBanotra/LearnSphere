@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Left from "../../assets/Left.svg";
-import { useAppDispatch, useAppSelector } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../services/app/hooks";
 import { createCourse } from "../../services/app/actions/instructor.action";
 
 import { toast } from "react-toastify";

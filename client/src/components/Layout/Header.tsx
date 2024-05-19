@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { RxCross1 } from "react-icons/rx";
 import { FaCircleUser } from "react-icons/fa6";
-import { useAppDispatch, useAppSelector } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../services/app/hooks";
 import { logOut } from "../../services/app/slices/auth.slice";
 
 const Header = () => {

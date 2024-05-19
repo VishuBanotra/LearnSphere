@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { RiErrorWarningFill } from "react-icons/ri";
 import { signUp } from "../../../services/app/actions/auth.action";
 import AnimatedLoader from "../../utils/AnimatedLoader";
-import { useAppDispatch, useAppSelector } from "../../../hooks";
+import { useAppDispatch, useAppSelector } from "../../../services/app/hooks";
 
 const Register = () => {
   const navigate = useNavigate();

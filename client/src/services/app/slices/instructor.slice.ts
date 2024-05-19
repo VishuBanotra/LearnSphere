@@ -1,18 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createCourse } from "../actions/instructor.action";
+import { createCourse, fetchedCourses } from "../actions/instructor.action";
 
 interface InitialState {
   loading: boolean;
-  error: null | string;
   message?: null | string;
-  course?: null | {};
+  courses?: null | [];
 }
 
 const initialState: InitialState = {
   loading: false,
-  error: null,
   message: null,
-  course: null,
+  courses: null,
 };
 
 export const courseSlice = createSlice({
@@ -23,16 +21,33 @@ export const courseSlice = createSlice({
     builder.addCase(createCourse.pending, (state) => {
       state.loading = true;
       state.message = null;
-      state.course = null;
+      state.courses = null;
     });
     builder.addCase(createCourse.fulfilled, (state, { payload }) => {
-      state.loading = payload.message.loading;
+      state.loading = false;
       state.message = payload.message;
-      state.course = payload.course;
+      state.courses = null;
     });
     builder.addCase(createCourse.rejected, (state, { payload }) => {
       state.loading = false;
-      state.error = payload.message;
+      state.message = payload.message;
+      state.courses = null;
+    });
+
+    builder.addCase(fetchedCourses.pending, (state) => {
+      state.loading = true;
+      state.message = null;
+      state.courses = null;
+    });
+    builder.addCase(fetchedCourses.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.message = payload.messages;
+      state.courses = payload.courses;
+    });
+    builder.addCase(fetchedCourses.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.message = payload.message;
+      state.courses = null;
     });
   },
 });

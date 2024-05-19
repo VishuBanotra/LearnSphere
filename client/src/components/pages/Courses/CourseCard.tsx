@@ -14,7 +14,7 @@ const CourseCard = (props: CourseProps) => {
           <img className="h-[100px] md:h-[100%]" src={props.thumbNail} alt="" />
         </div>
 
-        <div className="md:p-2 w-[50%] md:w-[100%]">
+        <div className="p-2 w-[50%] md:w-[100%]">
           <p className="font-poppins font-semibold tracking-wide">
             {props.title}
           </p>
