@@ -27,7 +27,7 @@ router.route("/signup").post(signup);
 
 // Intructor Routes
 router
-  .route("/instructor/courses/:page/:limit")
+  .route("/instructor/courses")
   .get(authMiddleware, instructorRoleMiddleware, getCourses);
 router
   .route("/add/course")

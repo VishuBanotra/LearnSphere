@@ -15,7 +15,7 @@ export const getCourses = asyncHandler(
     const instructorId = req.headers["userId"];
     const courses = await Course.find({ createdBy: instructorId })
       .populate({ path: "createdBy", select: "fullname" })
-      .select("title description createdBy price thumbNail videos");
+      .select("_id title description createdBy price thumbNail videos");
 
     if (courses) {
       return res.status(200).json({
@@ -35,31 +35,47 @@ export const getCourses = asyncHandler(
 // Publish Course
 export const publish = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const isPublished = req.body;
     const courseId = req.params.courseId;
 
-    if (courseId) {
-      const updatedCourse = await Course.findByIdAndUpdate(
-        courseId,
-        isPublished,
-        { new: true }
-      );
+    const course = await Course.findById(courseId);
 
-      if (updatedCourse) {
-        return res.status(201).json({
-          success: true,
-          message: "Course updated successfully.",
-          updatedCourse,
-        });
+    if (course) {
+      const isAlreadyPublished = course.isPublished;
+
+      if (isAlreadyPublished) {
+        const unPublishCourse = await Course.findByIdAndUpdate(
+          courseId,
+          {
+            isPublished: false,
+          },
+          { new: true }
+        );
+
+        if (unPublishCourse) {
+          return res.status(201).json({
+            success: true,
+            message: "Course Unpublished",
+          });
+        }
       } else {
-        return res
-          .status(400)
-          .json({ success: false, message: "Error updating Course." });
+        const publishCourse = await Course.findByIdAndUpdate(
+          courseId,
+          {
+            isPublished: true,
+          },
+          { new: true }
+        );
+
+        if (publishCourse) {
+          return res
+            .status(201)
+            .json({ success: true, message: "Course Published." });
+        }
       }
     } else {
       return res
         .status(404)
-        .json({ success: false, message: "Course Not Found." });
+        .json({ success: false, message: "Course not found." });
     }
   }
 );
@@ -71,8 +87,6 @@ export const newCourse = asyncHandler(async (req: Request, res: Response) => {
     return res.status(400).json(parsedInputs.error);
   }
 
-  console.log(req.file);
-
   const thumbNailLocalPath: string | undefined = req.file?.path;
   if (!thumbNailLocalPath) throw new Error("Thumbnail is Required 1.");
 
@@ -80,8 +94,6 @@ export const newCourse = asyncHandler(async (req: Request, res: Response) => {
 
   const thumbNail = await uploadOnCloudinary(thumbNailLocalPath);
   if (!thumbNail) throw new Error("Thumbnail is required.");
-
-  console.log(thumbNail);
 
   const instructorId = req.headers["userId"];
 
@@ -98,7 +110,6 @@ export const newCourse = asyncHandler(async (req: Request, res: Response) => {
     return res.status(201).json({
       success: true,
       message: "Course Created Successfully",
-      course: createdCourse,
     });
   } else {
     return res.json({ success: false, message: "Error Creating Course" });
