@@ -15,7 +15,9 @@ export const getCourses = asyncHandler(
     const instructorId = req.headers["userId"];
     const courses = await Course.find({ createdBy: instructorId })
       .populate({ path: "createdBy", select: "fullname" })
-      .select("_id title description createdBy price thumbNail videos");
+      .select(
+        "_id title description createdBy isPublished price thumbNail videos"
+      );
 
     if (courses) {
       return res.status(200).json({
@@ -54,7 +56,8 @@ export const publish = asyncHandler(
         if (unPublishCourse) {
           return res.status(201).json({
             success: true,
-            message: "Course Unpublished",
+            isPublished: false,
+            message: "Course Unpublished.",
           });
         }
       } else {
@@ -67,9 +70,11 @@ export const publish = asyncHandler(
         );
 
         if (publishCourse) {
-          return res
-            .status(201)
-            .json({ success: true, message: "Course Published." });
+          return res.status(201).json({
+            success: true,
+            isPublished: true,
+            message: "Course Published.",
+          });
         }
       }
     } else {
